@@ -230,6 +230,7 @@ class productController {
         data: {
           isDeleted: true,
           image_id: null,
+          category_id: 1,
         },
         where: {
           id: Number(id),
