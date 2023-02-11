@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  theme    = "dark"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+  role     Role    @default(USER)
+  Sale     Sale[]
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String
+  value Int
+  stock Int
+
+  isDeleted Boolean @default(false)
+
+  image    ProductImage? @relation(fields: [image_id], references: [id])
+  image_id Int?
+
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  description String
+  Product     Product[]
+
+  @@map("categories")
+}
+
+model ProductImage {
+  id      Int       @id @default(autoincrement())
+  url     String
+  path    String
+  Product Product[]
+
+  @@map("productimages")
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  title     String?
+  products  Json[]
+  value     Int?
+  sell_type SellType
+
+  machine    Machine @relation(fields: [machine_id], references: [id])
+  machine_id Int
+
+  sold_by User @relation(fields: [userId], references: [id])
+  userId  Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("sales")
+}
+
+enum SellType {
+  dinheiro
+  credito
+  debito
+}
+
+model Machine {
+  id     Int    @id @default(autoincrement())
+  title  String
+  credit Int
+  debit  Int
+  Sale   Sale[]
+
+  @@map("machines")
+}
