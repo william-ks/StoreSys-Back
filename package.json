@@ -1,0 +1,47 @@
+{
+  "name": "learn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm ./dist && tsc",
+    "start": "node ./dist/index",
+    "dev": "tsx watch ./src/server",
+    "migrates": "prisma migrate dev && prisma db seed"
+  },
+  "keywords": [],
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.10.1",
+    "aws-sdk": "^2.1312.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "zod": "^3.20.5"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.3.0",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^18.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.33.0",
+    "prisma": "^4.10.1",
+    "prisma-erd-generator": "^1.2.5",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.3",
+    "typescript": "^4.9.5",
+    "vitest": "^0.28.4"
+  }
+}
