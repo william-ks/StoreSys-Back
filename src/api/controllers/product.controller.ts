@@ -32,6 +32,12 @@ class productController {
       return res.status(400).json({ message: "Missing arguments." });
     }
 
+    if (category_id <= 1) {
+      return res.status(400).json({
+        message: "Categoria inválida.",
+      });
+    }
+
     if (url || path) {
       if (!path || !url) {
         return res.status(400).json({ message: "Missing arguments." });
@@ -81,8 +87,16 @@ class productController {
           isDeleted: false,
         },
         include: {
-          image: true,
-          category: true,
+          image: {
+            select: {
+              url: true,
+            },
+          },
+          category: {
+            select: {
+              description: true,
+            },
+          },
         },
         orderBy: {
           id: "asc",
@@ -111,8 +125,16 @@ class productController {
           },
         },
         include: {
-          image: true,
-          category: true,
+          image: {
+            select: {
+              url: true,
+            },
+          },
+          category: {
+            select: {
+              description: true,
+            },
+          },
         },
       });
 
