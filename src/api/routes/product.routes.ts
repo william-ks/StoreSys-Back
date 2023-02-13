@@ -29,7 +29,7 @@ productRouter.post(
 
 productRouter.put(
   "/product/:id",
-  validateBody(ProductUpdateSchema),
+  // validateBody(ProductUpdateSchema),
   productController.update
 );
 
