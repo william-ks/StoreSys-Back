@@ -66,17 +66,21 @@ model ProductImage {
 }
 
 model Sale {
-  id        Int      @id @default(autoincrement())
-  title     String?
-  products  Json[]
-  value     Int?
-  sell_type SellType
+  id       Int     @id @default(autoincrement())
+  title    String?
+  products Json[]
+  total    Int
 
-  machine    Machine @relation(fields: [machine_id], references: [id])
-  machine_id Int
+  discount_for_client Int @default(0)
 
-  sold_by User @relation(fields: [userId], references: [id])
-  userId  Int
+  sale_type    SaleType @relation(fields: [sale_type_id], references: [id])
+  sale_type_id Int
+
+  machine    Machine? @relation(fields: [machine_id], references: [id])
+  machine_id Int?
+
+  sold_by User @relation(fields: [sold_by_id], references: [id])
+  sold_by_id  Int
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -84,10 +88,12 @@ model Sale {
   @@map("sales")
 }
 
-enum SellType {
-  dinheiro
-  credito
-  debito
+model SaleType {
+  id    Int    @id @default(autoincrement())
+  title String
+  Sale  Sale[]
+
+  @@map("salestype")
 }
 
 model Machine {
@@ -95,7 +101,8 @@ model Machine {
   title  String
   credit Int
   debit  Int
-  Sale   Sale[]
+
+  Sale Sale[]
 
   @@map("machines")
 }
