@@ -87,11 +87,7 @@ class productController {
           isDeleted: false,
         },
         include: {
-          image: {
-            select: {
-              url: true,
-            },
-          },
+          image: true,
           category: {
             select: {
               description: true,
@@ -125,11 +121,7 @@ class productController {
           },
         },
         include: {
-          image: {
-            select: {
-              url: true,
-            },
-          },
+          image: true,
           category: {
             select: {
               description: true,
@@ -152,7 +144,7 @@ class productController {
     const { id } = req.params;
     const { name, value, stock, url, path, category_id } = req.body;
 
-    if (!name && !value && !stock && !category_id) {
+    if (!name && !value && !stock && !category_id && !url && !path) {
       return res
         .status(400)
         .json({ message: "Nenhum dado para ser atualizado." });
@@ -183,6 +175,11 @@ class productController {
       }
 
       let dataToUpdate: any = {};
+      let updateData: boolean = false;
+
+      if (name || value || stock || category_id) {
+        updateData = true;
+      }
 
       if (name) {
         dataToUpdate.name = name;
@@ -196,22 +193,34 @@ class productController {
         dataToUpdate.stock = stock;
       }
 
+      let paths: any = {};
+
       if (url) {
-        dataToUpdate.url = url;
+        paths.url = url;
+        paths.path = path;
       }
 
-      if (path) {
-        dataToUpdate.path = path;
+      if (paths.url) {
+        await prisma.productImage.update({
+          data: {
+            ...paths,
+          },
+          where: {
+            id: product.image_id as number,
+          },
+        });
       }
 
-      await prisma.product.update({
-        data: {
-          ...dataToUpdate,
-        },
-        where: {
-          id: Number(id),
-        },
-      });
+      if (updateData) {
+        await prisma.product.update({
+          data: {
+            ...dataToUpdate,
+          },
+          where: {
+            id: Number(id),
+          },
+        });
+      }
 
       return res.status(204).end();
     } catch (e) {
