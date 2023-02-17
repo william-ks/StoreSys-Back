@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import loginController from "../controllers/login.controller";
 import auth from "../middlewares/auth";
 import validateBody from "../middlewares/validateBody";
