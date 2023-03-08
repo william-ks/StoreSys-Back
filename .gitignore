@@ -9,7 +9,6 @@ lerna-debug.log*
 
 #prisma data
 migrations
-seed.ts
 ERD.svg
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
