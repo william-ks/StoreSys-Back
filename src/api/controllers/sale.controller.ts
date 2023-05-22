@@ -178,7 +178,7 @@ class saleController {
           },
         },
         orderBy: {
-          id: "asc",
+          updated_at: "desc",
         },
       });
       return res.status(200).json(sales);

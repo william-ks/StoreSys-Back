@@ -32,6 +32,11 @@ class categoryController {
   public async readAll(req: Request, res: Response): Promise<Response> {
     try {
       const categories = await prisma.category.findMany({
+        where: {
+          NOT: {
+            id: 1,
+          },
+        },
         orderBy: {
           id: "asc",
         },

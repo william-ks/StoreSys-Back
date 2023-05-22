@@ -29,10 +29,12 @@ enum Role {
 }
 
 model Product {
-  id    Int    @id @default(autoincrement())
-  name  String
-  value Int
-  stock Int
+  id          Int    @id @default(autoincrement())
+  name        String
+  code        Int?    @unique
+  value       Int
+  stock       Int
+  description String?
 
   isDeleted Boolean @default(false)
 
@@ -79,8 +81,8 @@ model Sale {
   machine    Machine? @relation(fields: [machine_id], references: [id])
   machine_id Int?
 
-  sold_by User @relation(fields: [sold_by_id], references: [id])
-  sold_by_id  Int
+  sold_by    User @relation(fields: [sold_by_id], references: [id])
+  sold_by_id Int
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -103,6 +105,8 @@ model Machine {
   debit  Int
 
   Sale Sale[]
+
+  isDeleted Boolean @default(false)
 
   @@map("machines")
 }

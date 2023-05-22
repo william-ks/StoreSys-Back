@@ -8,6 +8,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   if (!authorization.includes("Bearer")) {
+    
     return res.status(400).json({ message: "O token é inválido." });
   }
 

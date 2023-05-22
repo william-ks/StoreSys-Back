@@ -9,7 +9,11 @@ const adminAuth = async (req: Request, res: Response, next: NextFunction) => {
     },
   });
 
-  if (!actualUser || actualUser.role !== "ADMIN") {
+  // if (!actualUser || actualUser.role !== "ADMIN") {
+  //   return res.status(403).json({ message: "Acesso negado." });
+  // }
+
+  if(!actualUser){
     return res.status(403).json({ message: "Acesso negado." });
   }
 

@@ -9,6 +9,9 @@ class machineController {
       const alreadyExists = await prisma.machine.findFirst({
         where: {
           title,
+          AND: {
+            isDeleted: false,
+          },
         },
       });
 
@@ -35,6 +38,9 @@ class machineController {
   public async read(req: Request, res: Response): Promise<Response> {
     try {
       const machines = await prisma.machine.findMany({
+        where: {
+          isDeleted: false,
+        },
         orderBy: {
           id: "asc",
         },
@@ -64,6 +70,9 @@ class machineController {
       const validId = await prisma.machine.findFirst({
         where: {
           id: Number(id),
+          AND: {
+            isDeleted: false,
+          },
         },
       });
 
@@ -116,7 +125,16 @@ class machineController {
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
     try {
+      await prisma.machine.update({
+        data: {
+          isDeleted: true,
+        },
+        where: {
+          id: Number(id),
+        },
+      });
       return res.status(204).end();
     } catch (e) {
       return res.status(500).json({ message: "Erro interno no servidor." });

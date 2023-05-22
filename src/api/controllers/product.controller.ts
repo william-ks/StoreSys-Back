@@ -26,7 +26,8 @@ class productController {
   }
 
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, value, stock, url, path, category_id } = req.body;
+    const { name, value, code, description, stock, url, path, category_id } =
+      req.body;
 
     if (!name || !value || !stock || !category_id) {
       return res.status(400).json({ message: "Missing arguments." });
@@ -55,11 +56,23 @@ class productController {
         return res.status(400).json({ message: "Essa categoria não existe." });
       }
 
+      const codeExists = await prisma.product.findFirst({
+        where: {
+          code: code,
+        },
+      });
+
+      if (codeExists) {
+        return res.status(400).json({ message: "Esse código já existe." });
+      }
+
       const product = await prisma.product.create({
         data: {
           name,
           value,
           stock,
+          code,
+          description,
           category: {
             connect: {
               id: category_id,
@@ -142,9 +155,19 @@ class productController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, value, stock, url, path, category_id } = req.body;
+    const { name, value, code, description, stock, url, path, category_id } =
+      req.body;
 
-    if (!name && !value && !stock && !category_id && !url && !path) {
+    if (
+      !name &&
+      !value &&
+      !stock &&
+      !category_id &&
+      !code &&
+      !description &&
+      !url &&
+      !path
+    ) {
       return res
         .status(400)
         .json({ message: "Nenhum dado para ser atualizado." });
@@ -177,7 +200,7 @@ class productController {
       let dataToUpdate: any = {};
       let updateData: boolean = false;
 
-      if (name || value || stock || category_id) {
+      if (name || value || stock || category_id || code || description) {
         updateData = true;
       }
 
@@ -191,6 +214,18 @@ class productController {
 
       if (stock) {
         dataToUpdate.stock = stock;
+      }
+
+      if (category_id) {
+        dataToUpdate.category_id = category_id;
+      }
+
+      if (code) {
+        dataToUpdate.code = code;
+      }
+
+      if (description) {
+        dataToUpdate.description = description;
       }
 
       let paths: any = {};
@@ -224,6 +259,7 @@ class productController {
 
       return res.status(204).end();
     } catch (e) {
+      console.log(e);
       return res.status(500).json({ message: "Erro interno servidor." });
     }
   }

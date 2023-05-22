@@ -38,6 +38,7 @@ const loginController = async (
 
     return res.status(200).json({ user, token });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ message: "Erro interno no servidor." });
   }
 };
