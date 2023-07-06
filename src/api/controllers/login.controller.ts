@@ -30,7 +30,7 @@ const loginController = async (
       { id: emailFound.id },
       process.env.JWT_PASS as string | "",
       {
-        expiresIn: "8h",
+        // expiresIn: "8h",
       }
     );
 

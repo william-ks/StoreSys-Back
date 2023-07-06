@@ -29,7 +29,7 @@ class productController {
     const { name, value, code, description, stock, url, path, category_id } =
       req.body;
 
-    if (!name || !value || !stock || !category_id) {
+    if (!name || !value || !stock || !category_id || !code || !Number(code)) {
       return res.status(400).json({ message: "Missing arguments." });
     }
 
@@ -89,6 +89,7 @@ class productController {
 
       return res.status(201).json(product);
     } catch (e) {
+      console.log(e);
       return res.status(500).json({ message: "Erro interno no servidor." });
     }
   }

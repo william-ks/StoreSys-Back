@@ -1,7 +1,7 @@
 import { prisma } from "../../services/prisma";
 import { Request, Response, NextFunction } from "express";
 
-const adminAuth = async (req: Request, res: Response, next: NextFunction) => {
+const adminAuth = (hierarchy: string) => async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
   const actualUser = await prisma.user.findFirst({
     where: {
@@ -9,7 +9,7 @@ const adminAuth = async (req: Request, res: Response, next: NextFunction) => {
     },
   });
 
-  // if (!actualUser || actualUser.role !== "ADMIN") {
+  // if (!actualUser || actualUser.role !== hierarchy) {
   //   return res.status(403).json({ message: "Acesso negado." });
   // }
 
