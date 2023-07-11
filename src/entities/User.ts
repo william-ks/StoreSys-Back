@@ -3,5 +3,5 @@ export interface UserI {
   name: string;
   email: string;
   password: string;
-  role: string;
+  hierarchy_id: number;
 }
