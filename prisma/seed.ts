@@ -7,15 +7,27 @@ async function main() {
   try {
     const pass = await bcrypt.hash("teste123", 10);
 
+    // creating hierarchies
+    await prisma.hierarchies.createMany({
+      data: [
+        { name: "Developer" },
+        { name: "Master" },
+        { name: "Admin" },
+        { name: "Employee" }
+      ]
+    })
+
+    // Creating developer profile
     await prisma.user.create({
       data: {
         name: "developer",
         email: "dev@gmail.com",
         password: pass,
-        role: "ADMIN",
+        hierarchy_id: 1,
       },
     });
 
+    // creating base categories
     await prisma.category.createMany({
       data: [
         { description: "Deletados" },
@@ -25,6 +37,7 @@ async function main() {
       ],
     });
 
+    // creating base payment methods
     await prisma.saleType.createMany({
       data: [
         { title: "Dinheiro" },

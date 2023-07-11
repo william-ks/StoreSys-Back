@@ -13,23 +13,27 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  password String
-  role     Role    @default(USER)
-  Sale     Sale[]
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  name         String?
+  password     String
+  hierarchy_id Int
+  hierarchy    Hierarchies? @relation(fields: [hierarchy_id], references: [id])
+  Sale         Sale[]
 
   @@map("users")
 }
 
-enum Role {
-  USER
-  ADMIN
+model Hierarchies {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+
+  @@map("hierarchies")
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   code        Int?    @unique
   value       Int
