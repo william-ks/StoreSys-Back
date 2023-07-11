@@ -230,6 +230,20 @@ class saleController {
     }
   }
 
+  public async readPaymentsMethods(req: Request, res: Response): Promise<Response> {
+    try {
+      const payments = await prisma.saleType.findMany({
+        orderBy: {
+          id: 'asc'
+        }
+      })
+
+      return res.status(200).json(payments);
+    } catch (e) {
+      return res.status(500).json({ message: "Erro interno no servidor." });
+    }
+  }
+
   public async update(req: Request, res: Response): Promise<Response> {
     const {
       title,

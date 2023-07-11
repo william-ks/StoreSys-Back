@@ -14,6 +14,13 @@ const loginController = async (
       where: {
         email,
       },
+      include: {
+        hierarchy: {
+          select: {
+            name: true
+          }
+        }
+      }
     });
 
     if (!emailFound) {
@@ -34,7 +41,7 @@ const loginController = async (
       }
     );
 
-    const { password: _, role: __, ...user } = emailFound;
+    const { id: _, password: __, hierarchy_id: ___, ...user } = emailFound;
 
     return res.status(200).json({ user, token });
   } catch (e) {
