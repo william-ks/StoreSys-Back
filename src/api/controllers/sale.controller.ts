@@ -9,9 +9,11 @@ interface test {
 
 class saleController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { title, products, discount_for_client, sale_type_id, machine_id } =
+    const { title, products, discount_for_client, sale_type_id, machine_id, sold_at } =
       req.body;
     const { id: userId } = req.user;
+
+
 
     if (sale_type_id < 1 || sale_type_id > 4) {
       return res.status(400).json({ message: "Tipo de venda inválido." });
@@ -116,6 +118,7 @@ class saleController {
         sale_type_id: sale_type_id,
         machine_id: sale_type_id <= 2 ? null : machine_id,
         sold_by_id: userId as number,
+        sold_at,
       };
 
       for (let actualProduct of products) {
@@ -156,6 +159,7 @@ class saleController {
 
       return res.status(201).json(response);
     } catch (e) {
+      console.log(e)
       return res.status(500).json({ message: "Erro interno no servidor." });
     }
   }
@@ -178,11 +182,12 @@ class saleController {
           },
         },
         orderBy: {
-          updated_at: "desc",
+          sold_at: "desc",
         },
       });
       return res.status(200).json(sales);
     } catch (e) {
+
       return res.status(500).json({ message: "Erro interno no servidor." });
     }
   }
@@ -216,7 +221,7 @@ class saleController {
           },
         },
         orderBy: {
-          id: "asc",
+          sold_at: "asc",
         },
       });
 
@@ -251,6 +256,7 @@ class saleController {
       discount_for_client,
       sale_type_id,
       machine_id,
+      sold_at,
       old_products,
     } = req.body;
 
@@ -417,6 +423,7 @@ class saleController {
         discount_for_client: discount_for_client,
         sale_type_id: sale_type_id,
         machine_id: sale_type_id <= 2 ? null : machine_id,
+        sold_at,
         sold_by_id: userId as number,
       };
 
