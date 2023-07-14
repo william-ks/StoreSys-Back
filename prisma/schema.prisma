@@ -72,10 +72,11 @@ model ProductImage {
 }
 
 model Sale {
-  id       Int     @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   title    String?
   products Json[]
   total    Int
+  sold_at  DateTime @default(now())
 
   discount_for_client Int @default(0)
 
