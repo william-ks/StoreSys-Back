@@ -13,7 +13,7 @@ const productRouter = Router();
 productRouter.get("/product", productController.readAll);
 productRouter.get("/product/:id", productController.readOne);
 
-productRouter.use(adminAuth);
+// productRouter.use(adminAuth);
 
 productRouter.post(
   "/product/image",

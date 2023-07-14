@@ -10,6 +10,7 @@ import {
 const saleRouter = Router();
 
 saleRouter.get("/sales", saleController.readAll);
+saleRouter.get("/payments", saleController.readPaymentsMethods);
 saleRouter.get("/sales/:id", saleController.readOne);
 
 saleRouter.post(
@@ -18,7 +19,7 @@ saleRouter.post(
   saleController.create
 );
 
-saleRouter.use(adminAuth);
+// saleRouter.use(adminAuth);
 
 saleRouter.put(
   "/sales/:id",

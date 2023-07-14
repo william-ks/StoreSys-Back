@@ -8,7 +8,7 @@ const categoryRouter = Router();
 
 categoryRouter.get("/category", categoryController.readAll);
 
-categoryRouter.use(adminAuth);
+// categoryRouter.use(adminAuth);
 
 categoryRouter.post(
   "/category",

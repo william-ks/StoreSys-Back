@@ -11,7 +11,7 @@ const machinesRouter = Router();
 
 machinesRouter.get("/machine", machinesController.read);
 
-machinesRouter.use(adminAuth);
+// machinesRouter.use(adminAuth);
 
 machinesRouter.post(
   "/machine",
