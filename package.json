@@ -10,7 +10,8 @@
     "build": "tsup src",
     "start": "node dist/server.js",
     "dev": "tsx watch ./src/server",
-    "migrates": "prisma migrate dev && prisma db seed"
+    "migrates": "prisma migrate deploy && prisma db seed"
+    
   },
   "keywords": [],
   "prisma": {
