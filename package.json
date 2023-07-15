@@ -7,8 +7,8 @@
     "node":"^v18.x"
   },
   "scripts": {
-    "build": "rm ./dist && tsc",
-    "start": "node ./dist/index",
+    "build": "tsc",
+    "start": "node ./dist/server",
     "dev": "tsx watch ./src/server",
     "migrates": "prisma migrate dev && prisma db seed"
   },
