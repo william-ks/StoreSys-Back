@@ -31,9 +31,6 @@ async function main() {
     await prisma.category.createMany({
       data: [
         { description: "Deletados" },
-        { description: "Calças" },
-        { description: "Saias" },
-        { description: "Intimas" },
       ],
     });
 
