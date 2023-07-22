@@ -63,16 +63,20 @@ class userControllers {
     try {
       const users = await prisma.user.findMany({
         orderBy: {
-          id: "asc",
+          name: "asc",
         },
-        include: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
           hierarchy: {
             select: {
               name: true
             }
-          }
+          },
         }
       });
+
 
       return res.status(200).json(users);
     } catch (e) {
@@ -100,7 +104,7 @@ class userControllers {
         return res.status(404).json({ message: "Usuário não encontrado." });
       }
 
-      const { password: _, ...userData } = user;
+      const { password: _, hierarchy_id: __, ...userData } = user;
 
       return res.status(200).json(userData);
     } catch (e) {
@@ -133,7 +137,7 @@ class userControllers {
         return res.status(404).json({ message: "Usuário não encontrado." });
       }
 
-      const { password: _, ...userData } = user;
+      const { password: _, hierarchy_id: __, ...userData } = user;
 
       return res.status(200).json(userData);
     } catch (e) {

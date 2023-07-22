@@ -38,7 +38,7 @@ class categoryController {
           },
         },
         orderBy: {
-          id: "asc",
+          description: "asc",
         },
       });
 
