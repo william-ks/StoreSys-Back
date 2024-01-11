@@ -3,21 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "^v18.x"
-  },
   "scripts": {
     "build": "tsup src",
     "start": "node dist/server.js",
     "dev": "tsx watch ./src/server",
     "migrates": "prisma migrate deploy && prisma db seed"
-    
   },
   "keywords": [],
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
-  "author": "",
+  "author": "William Krisley <will.ks2101@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.10.1",
@@ -50,5 +46,6 @@
     "tsx": "^3.12.3",
     "typescript": "^4.9.5",
     "vitest": "^0.28.4"
-  }
+  },
+  "repository": "git@github.com:william-ks/StoreSys-Back.git"
 }
