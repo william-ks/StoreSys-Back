@@ -13,27 +13,18 @@ datasource db {
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
-  email        String       @unique
-  name         String?
-  password     String
-  hierarchy_id Int
-  hierarchy    Hierarchies? @relation(fields: [hierarchy_id], references: [id])
-  Sale         Sale[]
+  id       String  @id @default(uuid())
+  email    String  @unique
+  name     String?
+  password String
+  Sale     Sale[]
 
+  @@index([email])
   @@map("users")
 }
 
-model Hierarchies {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
-
-  @@map("hierarchies")
-}
-
 model Product {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   code        Int?    @unique
   value       Int
@@ -42,52 +33,43 @@ model Product {
 
   isDeleted Boolean @default(false)
 
-  image    ProductImage? @relation(fields: [image_id], references: [id])
-  image_id Int?
-
   category    Category @relation(fields: [category_id], references: [id])
-  category_id Int
+  category_id String
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  SaleItem   SaleItem[]
 
   @@map("products")
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   description String
   Product     Product[]
 
   @@map("categories")
 }
 
-model ProductImage {
-  id      Int       @id @default(autoincrement())
-  url     String
-  path    String
-  Product Product[]
+model Machine {
+  id     String @id @default(uuid())
+  title  String
+  credit Int
+  debit  Int
 
-  @@map("productimages")
+  isDeleted Boolean @default(false)
+
+  @@map("machines")
 }
 
 model Sale {
-  id       Int      @id @default(autoincrement())
-  title    String?
-  products Json[]
-  total    Int
-  sold_at  DateTime @default(now())
+  id    String @id @default(uuid())
+  title String
 
-  discount_for_client Int @default(0)
+  sold_by    User   @relation(fields: [sold_by_id], references: [id])
+  sold_by_id String
 
-  sale_type    SaleType @relation(fields: [sale_type_id], references: [id])
-  sale_type_id Int
-
-  machine    Machine? @relation(fields: [machine_id], references: [id])
-  machine_id Int?
-
-  sold_by    User @relation(fields: [sold_by_id], references: [id])
-  sold_by_id Int
+  sale_itens SaleItem[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -95,23 +77,13 @@ model Sale {
   @@map("sales")
 }
 
-model SaleType {
-  id    Int    @id @default(autoincrement())
-  title String
-  Sale  Sale[]
+model SaleItem {
+  id         String  @id @default(uuid())
+  sale       Sale    @relation(fields: [sale_id], references: [id])
+  sale_id    String
+  price      Int
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String
 
-  @@map("salestype")
-}
-
-model Machine {
-  id     Int    @id @default(autoincrement())
-  title  String
-  credit Int
-  debit  Int
-
-  Sale Sale[]
-
-  isDeleted Boolean @default(false)
-
-  @@map("machines")
+  @@map("sale_itens")
 }
