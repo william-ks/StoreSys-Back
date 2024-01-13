@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 export class CreateUserService {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(props: ICreateUserDTO, actualUserId: string) {
+  async execute(props: ICreateUserDTO) {
     const { email, name, password } = props;
     const emailAlreadyExists = await this.userRepository.findBy({
       key: "email",
