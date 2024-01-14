@@ -1,4 +1,4 @@
-import User from "../api/v2/entities/User";
+import User from "../api/v2/entities/Store";
 
 declare global {
   namespace Express {

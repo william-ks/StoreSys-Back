@@ -1,12 +1,12 @@
-import { User } from "../../src/api/v2/entities/User";
+import { Store } from "../../src/api/v2/entities/Store";
 import {
   IFindBy,
-  IUserRepository,
-} from "./../../src/api/v2/repositories/IUserRepository";
-export class UserMemoryRepository implements IUserRepository {
-  public users: User[] = [];
+  IStoreRepository,
+} from "../../src/api/v2/repositories/IStoreRepository";
+export class UserMemoryRepository implements IStoreRepository {
+  public users: Store[] = [];
 
-  async findBy({ key, value }: IFindBy): Promise<User> {
+  async findBy({ key, value }: IFindBy): Promise<Store> {
     const user = this.users.find((el) => {
       return el[key] === value;
     });
@@ -14,7 +14,7 @@ export class UserMemoryRepository implements IUserRepository {
     return user;
   }
 
-  async save(props: Omit<User, "id">): Promise<void> {
-    this.users.push(new User({ ...props }));
+  async save(props: Omit<Store, "id">): Promise<void> {
+    this.users.push(new Store({ ...props }));
   }
 }

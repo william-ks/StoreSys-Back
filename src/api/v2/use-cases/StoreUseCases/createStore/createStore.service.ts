@@ -1,13 +1,13 @@
-import { IUserRepository } from "../../../repositories/IUserRepository";
+import { IStoreRepository } from "../../../repositories/IStoreRepository";
 import { ICreateStoreDTO } from "./createStore.DTO";
 import bcrypt from "bcrypt";
 
 export class CreateStoreService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(private storeRepository: IStoreRepository) {}
 
   async execute(props: ICreateStoreDTO) {
     const { email, name, password } = props;
-    const emailAlreadyExists = await this.userRepository.findBy({
+    const emailAlreadyExists = await this.storeRepository.findBy({
       key: "email",
       value: email,
     });
@@ -27,7 +27,7 @@ export class CreateStoreService {
       password: encryptedPass,
     };
 
-    this.userRepository.save({
+    this.storeRepository.save({
       ...newUser,
     });
   }
