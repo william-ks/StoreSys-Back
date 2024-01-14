@@ -1,26 +1,29 @@
 import { UserMemoryRepository } from "./../../../../../../tests/memoryRepository/userMemoryRepository";
 import { describe, expect, test } from "vitest";
-import { CreateUserService } from "./createUser.service";
+import { CreateStoreService } from "./createStore.service";
 
 describe("create user Tests", () => {
   const userMemoryRepository = new UserMemoryRepository();
-  const service = new CreateUserService(userMemoryRepository);
+  const service = new CreateStoreService(userMemoryRepository);
 
-  const userTest = {
+  const storeTest = {
     name: "John",
     email: "john@gmail.com",
     password: "test123",
   };
 
   test("is adding user ?", async () => {
-    await service.execute(userTest);
+    await service.execute(storeTest);
 
-    expect(userMemoryRepository.users[0]).toHaveProperty("name", userTest.name);
+    expect(userMemoryRepository.users[0]).toHaveProperty(
+      "name",
+      storeTest.name,
+    );
   });
 
   test("try insert a repeted User", async () => {
     try {
-      await service.execute(userTest);
+      await service.execute(storeTest);
     } catch (e) {
       expect(e.code).toBe(400);
     }

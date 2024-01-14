@@ -1,11 +1,11 @@
 import { IUserRepository } from "../../../repositories/IUserRepository";
-import { ICreateUserDTO } from "./createUser.DTO";
+import { ICreateStoreDTO } from "./createStore.DTO";
 import bcrypt from "bcrypt";
 
-export class CreateUserService {
+export class CreateStoreService {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(props: ICreateUserDTO) {
+  async execute(props: ICreateStoreDTO) {
     const { email, name, password } = props;
     const emailAlreadyExists = await this.userRepository.findBy({
       key: "email",

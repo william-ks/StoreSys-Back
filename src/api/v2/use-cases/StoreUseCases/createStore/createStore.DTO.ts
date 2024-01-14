@@ -1,4 +1,4 @@
-export interface ICreateUserDTO {
+export interface ICreateStoreDTO {
   name: string;
   email: string;
   password: string;
