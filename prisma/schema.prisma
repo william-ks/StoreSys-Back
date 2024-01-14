@@ -12,19 +12,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Store {
+  id       String     @id @default(cuid())
+  name     String
+  nick     String
+  email    String
+  User     User[]
+  Product  Product[]
+  Category Category[]
+  Machine  Machine[]
+  Sale     Sale[]
+
+  @@map("stores")
+}
+
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
+  id       String  @id @default(cuid())
+  nick     String  @unique
   name     String?
   password String
   Sale     Sale[]
+  store    Store   @relation(fields: [store_id], references: [id])
+  store_id String
 
-  @@index([email])
+  @@index([nick])
   @@map("users")
 }
 
+model Category {
+  id          String    @id @default(cuid())
+  description String
+  Product     Product[]
+  store       Store     @relation(fields: [store_id], references: [id])
+  store_id    String
+
+  @@map("categories")
+}
+
 model Product {
-  id          String  @id @default(uuid())
+  id          String  @id @default(cuid())
   name        String
   code        Int?    @unique
   value       Int
@@ -40,22 +66,20 @@ model Product {
   updated_at DateTime   @updatedAt
   SaleItem   SaleItem[]
 
+  store    Store  @relation(fields: [store_id], references: [id])
+  store_id String
+
   @@map("products")
 }
 
-model Category {
-  id          String    @id @default(uuid())
-  description String
-  Product     Product[]
-
-  @@map("categories")
-}
-
 model Machine {
-  id     String @id @default(uuid())
+  id     String @id @default(cuid())
   title  String
   credit Int
   debit  Int
+
+  store    Store  @relation(fields: [store_id], references: [id])
+  store_id String
 
   isDeleted Boolean @default(false)
 
@@ -63,7 +87,7 @@ model Machine {
 }
 
 model Sale {
-  id    String @id @default(uuid())
+  id    String @id @default(cuid())
   title String
 
   sold_by    User   @relation(fields: [sold_by_id], references: [id])
@@ -74,11 +98,14 @@ model Sale {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  store   Store  @relation(fields: [store_id], references: [id])
+  store_id String
+
   @@map("sales")
 }
 
 model SaleItem {
-  id         String  @id @default(uuid())
+  id         String  @id @default(cuid())
   sale       Sale    @relation(fields: [sale_id], references: [id])
   sale_id    String
   price      Int
