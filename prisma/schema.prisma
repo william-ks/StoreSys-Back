@@ -13,10 +13,12 @@ datasource db {
 }
 
 model Store {
-  id       String     @id @default(cuid())
+  id       String @id @default(cuid())
   name     String
   nick     String
   email    String
+  password String
+
   User     User[]
   Product  Product[]
   Category Category[]
@@ -98,7 +100,7 @@ model Sale {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  store   Store  @relation(fields: [store_id], references: [id])
+  store    Store  @relation(fields: [store_id], references: [id])
   store_id String
 
   @@map("sales")
